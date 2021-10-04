@@ -58,8 +58,7 @@ public class GameControl : MonoBehaviour
                 playerComponent.startWayPoint = playerComponent.waypointIndex - 1;
                 if (shortCut.ContainsKey(playerComponent.startWayPoint))
 				{
-                    playerComponent.shortCut = true;
-                    playerComponent.moveToIndex = shortCut[playerComponent.startWayPoint];
+                    StartCoroutine("WaitFor", playerComponent);
 				}
                 else
 				{
@@ -73,8 +72,13 @@ public class GameControl : MonoBehaviour
                 break;
 			}
 		}
+    }
 
-        
+    public IEnumerator WaitFor(Player playerComponent)
+	{
+        yield return new WaitForSeconds(0.3f);
+        playerComponent.shortCut = true;
+        playerComponent.moveToIndex = shortCut[playerComponent.startWayPoint];
     }
 
     public static void MovePlayer(int playerID)
