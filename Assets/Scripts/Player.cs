@@ -74,7 +74,6 @@ public class Player : MonoBehaviour
                 shortCut = false;
                 waypointIndex = index;
                 startWayPoint = waypointIndex - 1;
-                Dice.coroutineAllowed = true;
 			}
 		}
 	}

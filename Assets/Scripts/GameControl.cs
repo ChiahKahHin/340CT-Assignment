@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameControl : MonoBehaviour
 {
@@ -62,14 +63,14 @@ public class GameControl : MonoBehaviour
 				}
                 else
 				{
-                    Dice.coroutineAllowed = true;
 				}
-			}
 
-            if (playerComponent.waypointIndex == playerComponent.waypoints.Length)
-			{
-                gameOver = true;
-                break;
+                if (playerComponent.waypointIndex == playerComponent.waypoints.Length)
+			    {
+                    gameOver = true;
+                    break;
+			    }
+                StartCoroutine("StartMCQ");
 			}
 		}
     }
@@ -79,6 +80,19 @@ public class GameControl : MonoBehaviour
         yield return new WaitForSeconds(0.3f);
         playerComponent.shortCut = true;
         playerComponent.moveToIndex = shortCut[playerComponent.startWayPoint];
+    }
+
+    public IEnumerator StartMCQ()
+	{
+        yield return new WaitForSeconds(1f);
+        SceneManager.LoadScene("MCQScene", LoadSceneMode.Additive);
+	}
+    
+    public static IEnumerator EndMCQ()
+	{
+        yield return new WaitForSeconds(1f);
+        SceneManager.UnloadScene("MCQScene");
+        Dice.coroutineAllowed = true;
     }
 
     public static void MovePlayer(int playerID)
