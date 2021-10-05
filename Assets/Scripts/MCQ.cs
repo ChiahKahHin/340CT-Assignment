@@ -7,6 +7,7 @@ public class MCQ : MonoBehaviour
 {
     public List<Questions> QnA;
     public GameObject[] options;
+    public GameObject MessagePanel;
     public int currentQuestion;
     public int tempQuestion;
 
@@ -15,12 +16,18 @@ public class MCQ : MonoBehaviour
     private void Start()
     {
         generateQuestion();
+        MessagePanel.SetActive(false);
     }
 
-    public void correct()
+    public void correct(string message)
     {
+        MessagePanel.SetActive(true);
+        MessagePanel.transform.GetChild(0).GetComponent<Text>().text = message;
+
+        StartCoroutine(stop());
+        
         //QnA.RemoveAt(currentQuestion);
-        generateQuestion();
+        //generateQuestion();
     }
 
     void setAnswer()
@@ -39,7 +46,9 @@ public class MCQ : MonoBehaviour
 
     void generateQuestion()
     {
-        if(QnA.Count > 0)
+        MessagePanel.SetActive(false);
+
+        if (QnA.Count > 0)
         {
             currentQuestion = Random.Range(0, QnA.Count);
 
@@ -59,5 +68,11 @@ public class MCQ : MonoBehaviour
         {
             Debug.Log("Out of Questions");
         }
+    }
+
+    public IEnumerator stop()
+    {
+        yield return new WaitForSeconds(20f);
+        //generateQuestion();
     }
 }
