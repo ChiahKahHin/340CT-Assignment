@@ -107,7 +107,7 @@ public class GameControl : MonoBehaviour
     
     public static IEnumerator EndMCQ(int obtainedScore)
 	{
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(2f);
         SceneManager.UnloadScene("MCQScene");
         (players[whoseTurn] as GameObject).GetComponent<Player>().addScore(obtainedScore);
         whoseTurn = (whoseTurn + 1) % players.Count;
