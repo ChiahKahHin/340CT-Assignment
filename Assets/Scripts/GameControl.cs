@@ -7,8 +7,11 @@ public class GameControl : MonoBehaviour
 {
     public static ArrayList players;
     public static bool gameOver = false;
-    public static int numberOfPlayers = 3;
+    public static int numberOfPlayers = 4;
     public static int diceSideThrown = 0;
+
+    public static int whoseTurn = 0;
+
     private static Dictionary<int, int> shortCut = new Dictionary<int, int>()
     {
         [8] = 29,
@@ -32,17 +35,22 @@ public class GameControl : MonoBehaviour
 		{
             int playerID = i + 1;
             GameObject obj = GameObject.Find("Player" + playerID);
+            GameObject scoreLabel = GameObject.Find("Player" + playerID + "Score");
             obj.gameObject.SetActive(true);
+            scoreLabel.gameObject.SetActive(true);
             obj.GetComponent<Player>().moveAllowed = false;
-            obj.GetComponent<Player>().init(playerID);
-            obj.GetComponent<Renderer>().enabled = true;
+            obj.GetComponent<Player>().init(playerID, scoreLabel);
             players.Add(obj);
 		}
         for (; i < 4; i++)
         {
             int temp = i + 1;
             GameObject obj = GameObject.Find("Player" + temp);
-            obj.GetComponent<Renderer>().enabled = false;
+            GameObject scoreLabel = GameObject.Find("Player" + temp + "Score");
+            GameObject icon = GameObject.Find("Player" + temp + "Icon");
+            scoreLabel.gameObject.SetActive(false);
+            icon.gameObject.SetActive(false);
+            // obj.GetComponent<Renderer>().enabled = false;
             obj.gameObject.SetActive(false);
         }
     }
@@ -50,53 +58,63 @@ public class GameControl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (gameOver)
+            return;
         foreach (GameObject player in players)
 		{
             Player playerComponent = player.GetComponent<Player>();
+            if (playerComponent.waypointIndex == playerComponent.waypoints.Length)
+            {
+                gameOver = true;
+                Debug.Log("Game Over");
+                StartCoroutine(GameOver());
+                break;
+            }
             if (playerComponent.waypointIndex > playerComponent.startWayPoint + diceSideThrown)
 			{
                 playerComponent.moveAllowed = false;
                 playerComponent.startWayPoint = playerComponent.waypointIndex - 1;
                 if (shortCut.ContainsKey(playerComponent.startWayPoint))
 				{
-                    StartCoroutine("WaitFor", playerComponent);
+                    StartCoroutine(MoveShortCut(playerComponent));
 				}
                 else
-				{
-				}
+                {
+                    StartCoroutine(StartMCQ());
+                }
 
-                if (playerComponent.waypointIndex == playerComponent.waypoints.Length)
-			    {
-                    gameOver = true;
-                    break;
-			    }
-                StartCoroutine("StartMCQ");
 			}
 		}
     }
 
-    public IEnumerator WaitFor(Player playerComponent)
+    public IEnumerator MoveShortCut(Player playerComponent)
 	{
         yield return new WaitForSeconds(0.3f);
         playerComponent.shortCut = true;
         playerComponent.moveToIndex = shortCut[playerComponent.startWayPoint];
     }
 
-    public IEnumerator StartMCQ()
+    public static IEnumerator StartMCQ()
 	{
         yield return new WaitForSeconds(1f);
         SceneManager.LoadScene("MCQScene", LoadSceneMode.Additive);
 	}
+
+    private IEnumerator GameOver()
+	{
+        yield return new WaitForSeconds(0.5f);
+	}
     
-    public static IEnumerator EndMCQ()
+    public static IEnumerator EndMCQ(int obtainedScore)
 	{
         yield return new WaitForSeconds(1f);
         SceneManager.UnloadScene("MCQScene");
-        Dice.coroutineAllowed = true;
+        (players[whoseTurn] as GameObject).GetComponent<Player>().addScore(obtainedScore);
+        whoseTurn = (whoseTurn + 1) % players.Count;
     }
 
-    public static void MovePlayer(int playerID)
+    public static void MovePlayer()
 	{
-        (players[playerID] as GameObject).GetComponent<Player>().moveAllowed = true;
-	}
+        (players[whoseTurn] as GameObject).GetComponent<Player>().moveAllowed = true;
+    }
 }

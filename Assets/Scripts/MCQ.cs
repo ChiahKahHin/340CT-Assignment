@@ -24,7 +24,6 @@ public class MCQ : MonoBehaviour
     public void correct()
     {
         //QnA.RemoveAt(currentQuestion);
-        StartCoroutine(GameControl.EndMCQ());
     }
 
     void setAnswer()

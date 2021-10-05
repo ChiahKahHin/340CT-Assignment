@@ -6,7 +6,6 @@ public class Dice : MonoBehaviour
 {
     private Sprite[] diceSides;
     private SpriteRenderer rend;
-    private int whoseTurn = 0;
     public static bool coroutineAllowed = true;
     // Start is called before the first frame update
     void Start()
@@ -34,7 +33,6 @@ public class Dice : MonoBehaviour
             yield return new WaitForSeconds(0.05f);
 		}
         GameControl.diceSideThrown = randomDiceNumber + 1;
-        GameControl.MovePlayer(whoseTurn);
-        whoseTurn = (whoseTurn + 1) % GameControl.players.Count;
+        GameControl.MovePlayer();
 	}
 }
