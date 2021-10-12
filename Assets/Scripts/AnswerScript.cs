@@ -69,7 +69,7 @@ public class AnswerScript : MonoBehaviour
             timeScore = (int)(maxScore * (timeValue / maxTime));
 
             Debug.Log(timeValue);
-            mcq.correct("Correct Answer");
+            mcq.correct("Correct Answer\nYou got " + timeScore + " points.");
         }
         else
         {
