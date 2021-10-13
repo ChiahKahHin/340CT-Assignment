@@ -53,10 +53,12 @@ public class AnswerScript : MonoBehaviour
 
         float seconds = Mathf.FloorToInt(timeToDisplay % 60);
         float milliseconds = timeToDisplay % 1 * 100;
+        timeText = GameObject.Find("TimerText").GetComponent<Text>();
         if (timeToDisplay < 5)
         {
             timeText.color = color;
         }
+        
         timeText.text = string.Format("{0:00}:{1:00}", seconds, milliseconds);
     }
 
@@ -67,15 +69,13 @@ public class AnswerScript : MonoBehaviour
         if(isCorrect)
         {
             timeScore = (int)(maxScore * (timeValue / maxTime));
-
-            Debug.Log(timeValue);
             mcq.correct("Correct Answer\nYou got " + timeScore + " points.");
         }
         else
         {
             timeScore = 0;
             Debug.Log("Wrong Answer");
-            mcq.correct("Wrong Answer");
+            mcq.correct("Wrong Answer\nYou got " + timeScore + " points.");
         }
         ButtonAnimation();
         StartCoroutine(GameControl.EndMCQ(timeScore));
