@@ -11,4 +11,16 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/MCQScene.unity
     guid: c01160cb1a3e3234ca9ae5979a6ba5e6
+  - enabled: 1
+    path: Assets/Scenes/Menu.unity
+    guid: ca87f14adf119d14cad62d7654df2c9f
+  - enabled: 1
+    path: Assets/Scenes/PlayerSelection.unity
+    guid: 2cda990e2423bbf4892e6590ba056729
+  - enabled: 1
+    path: Assets/Scenes/Help.unity
+    guid: 0b1cf6c939172d441981ea297b8d176c
+  - enabled: 1
+    path: Assets/Scenes/Credits.unity
+    guid: 86c6fca08e2ae894ca244b6a0c44af56
   m_configObjects: {}
