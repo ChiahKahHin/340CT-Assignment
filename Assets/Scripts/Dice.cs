@@ -33,6 +33,7 @@ public class Dice : MonoBehaviour
             yield return new WaitForSeconds(0.05f);
 		}
         GameControl.diceSideThrown = randomDiceNumber + 1;
+        //GameControl.diceSideThrown = 60;
         GameControl.MovePlayer();
 	}
 }
