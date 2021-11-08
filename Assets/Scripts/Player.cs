@@ -105,6 +105,6 @@ public class Player : MonoBehaviour
             scoreLabel.GetComponent<Text>().text = "Score: " + this.scores;
             yield return new WaitForSeconds(Time.deltaTime);
         }
-        Dice.coroutineAllowed = true;
+        GameControl.nextPlayer();
 	}
 }

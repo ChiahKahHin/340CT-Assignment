@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 public class GameControl : MonoBehaviour
 {
     public static ArrayList players;
+    public static ArrayList playersTurn;
     public static bool gameOver = false;
     public static int numberOfPlayers = 4;
     public static int diceSideThrown = 0;
@@ -31,28 +32,33 @@ public class GameControl : MonoBehaviour
     {
         int i = 0;
         players = new ArrayList();
+        playersTurn = new ArrayList();
         for (i = 0; i < numberOfPlayers; i++)
 		{
             int playerID = i + 1;
             GameObject obj = GameObject.Find("Player" + playerID);
             GameObject scoreLabel = GameObject.Find("Player" + playerID + "Score");
+            GameObject turnLabel = GameObject.Find("Player" + playerID + "Turn");
             obj.gameObject.SetActive(true);
             scoreLabel.gameObject.SetActive(true);
             obj.GetComponent<Player>().moveAllowed = false;
             obj.GetComponent<Player>().init(playerID, scoreLabel);
             players.Add(obj);
-		}
+            playersTurn.Add(turnLabel);
+        }
         for (; i < 4; i++)
         {
             int temp = i + 1;
             GameObject obj = GameObject.Find("Player" + temp);
             GameObject scoreLabel = GameObject.Find("Player" + temp + "Score");
             GameObject icon = GameObject.Find("Player" + temp + "Icon");
+            GameObject labelTurn = GameObject.Find("Player" + temp + "Turn");
             scoreLabel.gameObject.SetActive(false);
             icon.gameObject.SetActive(false);
-            // obj.GetComponent<Renderer>().enabled = false;
             obj.gameObject.SetActive(false);
+            labelTurn.gameObject.SetActive(false);
         }
+        nextPlayer();
     }
 
     // Update is called once per frame
@@ -85,6 +91,15 @@ public class GameControl : MonoBehaviour
 
 			}
 		}
+    }
+
+    public static void nextPlayer()
+	{
+        for (int i = 0; i < players.Count; i++)
+        {
+            (playersTurn[i] as GameObject).gameObject.SetActive(whoseTurn == i ? true : false); 
+        }
+        Dice.coroutineAllowed = true;
     }
 
     public IEnumerator MoveShortCut(Player playerComponent)
