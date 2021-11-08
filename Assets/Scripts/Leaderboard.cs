@@ -24,14 +24,16 @@ public class Leaderboard : MonoBehaviour
         {
             Player playerComponent = player.GetComponent<Player>();
             waypointIndex = playerComponent.waypointIndex - 1;
-            scoreList.Add(new scoreBoard { player = playerComponent.playerLabel, score = playerComponent.scores + waypointIndex * 100});
+            scoreList.Add(new scoreBoard { player = playerComponent.playerLabel, score = playerComponent.scores, bonusScore = waypointIndex * 100, finalScore = playerComponent.scores + waypointIndex * 100 });
         }
+
+        // scoreList.Add(new scoreBoard { player = playerComponent.playerLabel, score = playerComponent.scores + waypointIndex * 100});
 
         for (int i = 0; i < scoreList.Count; i++)
         {
             for (int j = i + 1; j < scoreList.Count; j++)
             {
-                if (scoreList[j].score > scoreList[i].score)
+                if (scoreList[j].finalScore > scoreList[i].finalScore)
                 {
                     scoreBoard temp = scoreList[i];
                     scoreList[i] = scoreList[j];
@@ -85,12 +87,20 @@ public class Leaderboard : MonoBehaviour
         int score = scoreBoard.score;
         transform.Find("score").GetComponent<Text>().text = score.ToString();
 
+        int bonusScore = scoreBoard.bonusScore;
+        transform.Find("bonusScore").GetComponent<Text>().text = bonusScore.ToString();
+
+        int finalScore = scoreBoard.finalScore;
+        transform.Find("finalScore").GetComponent<Text>().text = finalScore.ToString();
+
         switch (ranking)
         {
             case 1:
                 transform.Find("rankNumber").GetComponent<Text>().color = Color.yellow;
                 transform.Find("player").GetComponent<Text>().color = Color.yellow;
                 transform.Find("score").GetComponent<Text>().color = Color.yellow;
+                transform.Find("bonusScore").GetComponent<Text>().color = Color.yellow;
+                transform.Find("finalScore").GetComponent<Text>().color = Color.yellow;
                 break;
 
             case 2:
@@ -98,6 +108,8 @@ public class Leaderboard : MonoBehaviour
                 transform.Find("rankNumber").GetComponent<Text>().color = Color.gray;
                 transform.Find("player").GetComponent<Text>().color = Color.gray;
                 transform.Find("score").GetComponent<Text>().color = Color.gray;
+                transform.Find("bonusScore").GetComponent<Text>().color = Color.gray;
+                transform.Find("finalScore").GetComponent<Text>().color = Color.gray;
                 break;
 
             case 3:
@@ -105,12 +117,16 @@ public class Leaderboard : MonoBehaviour
                 transform.Find("rankNumber").GetComponent<Text>().color = Color.red;
                 transform.Find("player").GetComponent<Text>().color = Color.red;
                 transform.Find("score").GetComponent<Text>().color = Color.red;
+                transform.Find("bonusScore").GetComponent<Text>().color = Color.red;
+                transform.Find("finalScore").GetComponent<Text>().color = Color.red;
                 break;
 
             default:
                 transform.Find("rankNumber").GetComponent<Text>().color = Color.white;
                 transform.Find("player").GetComponent<Text>().color = Color.white;
                 transform.Find("score").GetComponent<Text>().color = Color.white;
+                transform.Find("bonusScore").GetComponent<Text>().color = Color.white;
+                transform.Find("finalScore").GetComponent<Text>().color = Color.white;
                 break;
         }
 
@@ -125,7 +141,9 @@ public class Leaderboard : MonoBehaviour
     private class scoreBoard
     {
         public string player;
-        public int score; 
+        public int score;
+        public int bonusScore;
+        public int finalScore;
     }
 
 }

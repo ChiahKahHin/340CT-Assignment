@@ -13,6 +13,8 @@ public class SceneLoader : MonoBehaviour
 
     public void StartGame()
     {
+        Dice.coroutineAllowed = true;
+        GameControl.gameOver = false;
         SceneManager.LoadScene("PlayerSelection", LoadSceneMode.Single);
     }
 
