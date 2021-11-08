@@ -71,6 +71,7 @@ public class GameControl : MonoBehaviour
         foreach (GameObject player in players)
 		{
             Player playerComponent = player.GetComponent<Player>();
+            //playerComponent.scores;
             if (playerComponent.waypointIndex == playerComponent.waypoints.Length)
             {
                 gameOver = true;
@@ -120,7 +121,9 @@ public class GameControl : MonoBehaviour
     private IEnumerator GameOver()
 	{
         yield return new WaitForSeconds(0.5f);
-	}
+        SceneManager.LoadScene("Leaderboard", LoadSceneMode.Additive);
+        // code here
+    }
     
     public static IEnumerator EndMCQ(int obtainedScore)
 	{
