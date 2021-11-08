@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class GameControl : MonoBehaviour
@@ -59,6 +60,7 @@ public class GameControl : MonoBehaviour
             labelTurn.gameObject.SetActive(false);
         }
         nextPlayer();
+
     }
 
     // Update is called once per frame
@@ -132,4 +134,5 @@ public class GameControl : MonoBehaviour
 	{
         (players[whoseTurn] as GameObject).GetComponent<Player>().moveAllowed = true;
     }
+
 }
