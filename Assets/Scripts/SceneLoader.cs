@@ -15,6 +15,7 @@ public class SceneLoader : MonoBehaviour
     {
         Dice.coroutineAllowed = true;
         GameControl.gameOver = false;
+        GameControl.whoseTurn = 0;
         SceneManager.LoadScene("PlayerSelection", LoadSceneMode.Single);
     }
 
