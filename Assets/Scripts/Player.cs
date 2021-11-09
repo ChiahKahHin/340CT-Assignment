@@ -11,8 +11,7 @@ public class Player : MonoBehaviour
 
     public Transform[] waypoints;
 
-    //private float moveSpeed = 4f;
-    private float moveSpeed = 50f;
+    private float moveSpeed = 8f;
 
     public GameObject scoreLabel;
 
