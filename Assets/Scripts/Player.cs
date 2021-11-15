@@ -81,8 +81,8 @@ public class Player : MonoBehaviour
 			{
                 moveToIndex = -1;
                 shortCut = false;
-                waypointIndex = index;
-                startWayPoint = waypointIndex - 1;
+                startWayPoint = index;
+                waypointIndex = startWayPoint + 1;
                 StartCoroutine(GameControl.StartMCQ());
             }
 		}
